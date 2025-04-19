@@ -6,6 +6,7 @@
 #include "helper_funnctions.h"
 
 
+
 // High-pass filter using dynamic kernel
 Mat OMPHighPassFilter(const Mat& inputImage, int kernelSize, int num_threads) {
     if (kernelSize % 2 == 0 || kernelSize < 3) {
@@ -28,11 +29,18 @@ Mat OMPHighPassFilter(const Mat& inputImage, int kernelSize, int num_threads) {
     // Start timing
     double start = omp_get_wtime();
 
+    int x, y, result;
+
     // Parallelize the outer loop using OpenMP
-#pragma omp parallel for num_threads(num_threads)
-    for (int y = padding; y < paddedImage.rows - padding; ++y) {
-        for (int x = padding; x < paddedImage.cols - padding; ++x) {
-            int result = applyKernelAtPixel(paddedImage, kernel, x, y, padding);
+#pragma omp parallel for \
+    num_threads(num_threads) \
+    default(none) \
+    shared(paddedImage, kernel, outputImage, padding) \
+    private(x, y, result) \
+    schedule(static, 1)
+    for (y = padding; y < paddedImage.rows - padding; ++y) {
+        for (x = padding; x < paddedImage.cols - padding; ++x) {
+            result = applyKernelAtPixel(paddedImage, kernel, x, y, padding);
             outputImage.at<uchar>(y - padding, x - padding) = static_cast<uchar>(result);
         }
     }
