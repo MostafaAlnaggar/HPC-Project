@@ -108,6 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <OpenMPSupport>yes</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -132,7 +133,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="HPC-Project.cpp" />
+    <ClCompile Include="helper_functions.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="serial_code.cpp" />
+    <ClCompile Include="usingOMP.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="helper_funnctions.h" />
+    <ClInclude Include="serial_code.h" />
+    <ClInclude Include="usingOMP.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
