@@ -1,6 +1,7 @@
 #include "serial_code.h"
 #include "usingOMP.h"
 
+
 int main() {
     // to diasble logging
     utils::logging::setLogLevel(utils::logging::LOG_LEVEL_ERROR);
@@ -18,7 +19,7 @@ int main() {
 
     // Apply high-pass filter
     Mat sharpenedImage = OMPHighPassFilter(image, kernel_size, num_threads);
-    //Mat sharpenedImage = serialHighPassFilter(image, 3);
+    //Mat sharpenedImage = serialHighPassFilter(image, kernel_size);
 
     // Display and save results
     imshow("Original", image);

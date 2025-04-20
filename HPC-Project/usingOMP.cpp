@@ -14,9 +14,10 @@ Mat OMPHighPassFilter(const Mat& inputImage, int kernelSize, int num_threads) {
         return inputImage.clone();
     }
 
-    //int padding = (kernelSize - 1) / 2;
-    int padding = 1;
-    auto kernel = getHighPassKernel(kernelSize);
+    int padding = (kernelSize - 1) / 2;
+    vector<vector<int>> kernel = generateKernel(kernelSize);
+
+	printKernel(kernel);
 
     // Pad input image
     Mat paddedImage;
@@ -27,7 +28,7 @@ Mat OMPHighPassFilter(const Mat& inputImage, int kernelSize, int num_threads) {
     Mat outputImage = Mat::zeros(inputImage.size(), inputImage.type());
 
     // Start timing
-    double start = omp_get_wtime();
+    auto start = chrono::high_resolution_clock::now();
 
     int x, y, result;
 
@@ -46,8 +47,9 @@ Mat OMPHighPassFilter(const Mat& inputImage, int kernelSize, int num_threads) {
     }
 
     // End timing
-    double end = omp_get_wtime();
-    cout << "Execution time for omp code: " << (end - start) << " seconds" << endl;
+    auto end = chrono::high_resolution_clock::now();
+    auto duration = chrono::duration_cast<chrono::milliseconds>(end - start);
+    cout << "Execution time for omp code: " << duration.count() << " milliseconds" << endl;
 
     return outputImage;
 }

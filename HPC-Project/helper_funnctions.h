@@ -4,5 +4,8 @@
 using namespace cv;
 using namespace std;
 
-vector<vector<int>> getHighPassKernel(int kernelSize);
 int applyKernelAtPixel(const Mat& paddedImage, const vector<vector<int>>& kernel, int x, int y, int padding);
+vector<vector<int>> generateKernel(int k);
+void printKernel(const vector<vector<int>>& kernel);
+
+

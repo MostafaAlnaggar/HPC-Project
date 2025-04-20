@@ -1,6 +1,7 @@
 #include <omp.h>
 #include "serial_code.h"
 #include "helper_funnctions.h"
+#include <chrono>
 
 
 
@@ -11,9 +12,10 @@ Mat serialHighPassFilter(const Mat& inputImage, int kernelSize) {
         return inputImage.clone();
     }
 
-    //int padding = (kernelSize - 1) / 2;
-    int padding = 1;
-    auto kernel = getHighPassKernel(kernelSize);
+    int padding = (kernelSize - 1) / 2;
+    vector<vector<int>> kernel = generateKernel(kernelSize);
+
+    printKernel(kernel);
 
     // Pad input image
     Mat paddedImage;
@@ -24,8 +26,7 @@ Mat serialHighPassFilter(const Mat& inputImage, int kernelSize) {
     Mat outputImage = Mat::zeros(inputImage.size(), inputImage.type());
 
     // Start timing
-    double start = omp_get_wtime();
-
+    auto start = chrono::high_resolution_clock::now();
 
     for (int y = padding; y < paddedImage.rows - padding; ++y) {
         for (int x = padding; x < paddedImage.cols - padding; ++x) {
@@ -35,8 +36,9 @@ Mat serialHighPassFilter(const Mat& inputImage, int kernelSize) {
     }
 
     // End timing
-    double end = omp_get_wtime();
-    cout << "Execution time for serial code: " << (end - start) << " seconds" << endl;
+    auto end = chrono::high_resolution_clock::now();
+	auto duration = chrono::duration_cast<chrono::milliseconds>(end - start);
+	cout << "Execution time for serial code: " << duration.count() << " milliseconds" << endl;
 
     return outputImage;
 }
