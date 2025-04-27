@@ -32,7 +32,7 @@
     <ClInclude Include="serial_code.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="helper_funnctions.h">
+    <ClInclude Include="helper_functions.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="usingOMP.h">

@@ -8,4 +8,5 @@ int applyKernelAtPixel(const Mat& paddedImage, const vector<vector<int>>& kernel
 vector<vector<int>> generateKernel(int k);
 void printKernel(const vector<vector<int>>& kernel);
 
-
+int applyKernelAtPixelRGB(const Mat& paddedImage, const vector<vector<int>>& kernel,
+    int centerX, int centerY, int padding, int channel);

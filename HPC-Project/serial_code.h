@@ -6,3 +6,6 @@ using namespace cv;
 using namespace std;
 
 Mat serialHighPassFilter(const Mat& inputImage, int kernelSize);
+
+Mat serialHighPassFilterRGB(const Mat& inputImage, int kernelSize);
+

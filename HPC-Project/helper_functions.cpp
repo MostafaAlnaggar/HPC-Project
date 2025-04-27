@@ -1,10 +1,10 @@
-#include "helper_funnctions.h"
+#include "helper_functions.h"
 
 // Applies kernel at a specific (x, y) location
 int applyKernelAtPixel(const Mat& paddedImage, const vector<vector<int>>& kernel, int x, int y, int padding) {
     int sum = 0;
-    for (int ky = -padding; ky <= padding; ++ky) {
-        for (int kx = -padding; kx <= padding; ++kx) {
+    for (int ky = -padding; ky <= padding; ky++) {
+        for (int kx = -padding; kx <= padding; kx++) {
             int pixel = paddedImage.at<uchar>(y + ky, x + kx);
             int weight = kernel[ky + padding][kx + padding];
             sum += pixel * weight;
@@ -58,4 +58,20 @@ void printKernel(const vector<vector<int>>& kernel) {
         cout << endl;
     }
 	cout << "\n------------------------\n\n" ;
+}
+
+
+// Modified kernel application function for RGB
+int applyKernelAtPixelRGB(const Mat& paddedImage, const vector<vector<int>>& kernel,
+    int centerX, int centerY, int padding, int channel) {
+    int result = 0;
+    for (int ky = 0; ky < kernel.size(); ky++) {
+        for (int kx = 0; kx < kernel[ky].size(); kx++) {
+            int pixelY = centerY + ky - padding;
+            int pixelX = centerX + kx - padding;
+            // Access specific channel using Vec3b
+            result += paddedImage.at<Vec3b>(pixelY, pixelX)[channel] * kernel[ky][kx];
+        }
+    }
+    return min(max(result, 0), 255);  // Ensure result is within valid range
 }
